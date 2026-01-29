@@ -6,103 +6,48 @@
     <title>Laporan Unit Beruniform SJK(C) Chung San</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        /* GAYA UMUM */
-        body { 
-            font-family: Arial, sans-serif; 
-            background-color: #f0f2f5; 
-            margin: 0; 
-            padding: 10px; 
-            color: #333;
-        }
-
-        .container { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 20px; 
-        }
+        /* --- GAYA DARI KOD ANDA (MODIFIED FOR UNIFORM) --- */
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 10px; }
+        .container { display: flex; flex-direction: column; gap: 20px; }
         
-        /* INPUT FORM STYLES */
-        .form-area { 
-            background: white; 
-            padding: 20px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+        @media (min-width: 992px) {
+            .container { flex-direction: row; align-items: flex-start; }
+            .form-area { width: 35%; position: sticky; top: 10px; max-height: 95vh; overflow-y: auto; }
+            .preview-area { width: 65%; }
         }
 
-        h3 { margin-top: 0; color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-
-        label { font-weight: bold; display: block; margin-top: 15px; font-size: 0.9rem; color: #444; }
+        /* FORM STYLES */
+        .form-area { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        label { font-weight: bold; display: block; margin-top: 15px; font-size: 0.9rem; color: #333; }
+        input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 16px; background: #fff; }
         
-        input, textarea, select { 
-            width: 100%; 
-            padding: 10px; 
-            border: 1px solid #ccc; 
-            border-radius: 6px; 
-            box-sizing: border-box; 
-            font-size: 16px; /* 16px prevents iOS zoom */
-            background: #fff;
-        }
-        
-        .section-title { 
-            background: #34495e; 
-            color: white; 
-            padding: 8px 10px; 
-            margin-top: 25px; 
-            border-radius: 4px; 
-            font-size: 0.9rem; 
-            font-weight: bold; 
-        }
-
-        .attendance-box { 
-            background: #fdfdfd; 
-            padding: 12px; 
-            border: 1px solid #eee; 
-            border-radius: 8px; 
-            margin-top: 10px; 
-        }
-
+        .section-title { background: #2c3e50; color: white; padding: 8px; margin-top: 20px; border-radius: 4px; font-weight:bold; font-size: 0.9rem; }
+        .attendance-box { background: #f9f9f9; padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-top: 5px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        
+        .btn-green { background-color: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold; margin-top: 25px; }
 
-        .btn-green { 
-            background-color: #27ae60; 
-            color: white; 
-            border: none; 
-            padding: 15px; 
-            width: 100%; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            font-size: 1.1rem; 
-            font-weight: bold; 
-            margin-top: 25px; 
-        }
+        /* --- PREVIEW AREA (SEPERTI KOD ANDA) --- */
+        .preview-area { background: #555; padding: 10px; overflow-x: auto; display: flex; justify-content: center; }
 
-        /* PREVIEW AREA (SCREEN) */
-        .preview-area { 
-            background: #555; 
-            padding: 15px; 
-            overflow-x: auto; 
-            display: flex; 
-            justify-content: center; 
-        }
-
-        /* PDF CONTENT STYLES (A4 FIXED) */
+        /* --- PDF CONTENT (WAJIB IKUT KOD ANDA 100%) --- */
         #pdf-content { 
             background: white; 
             width: 210mm; 
             min-height: 297mm; 
-            padding: 15mm; 
+            padding: 10mm 15mm; /* Padding asal anda */
             box-sizing: border-box; 
             margin: 0;
-            flex-shrink: 0; /* PENTING: Halang A4 mengecil di phone */
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            flex-shrink: 0; 
         }
-        
+
+        /* --- CONTENT STYLING --- */
         .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
         .header img { max-width: 90px; height: auto; margin-bottom: 5px; }
         .header h1 { margin: 0; font-size: 22px; font-family: "Times New Roman", serif; }
         .header p { margin: 5px 0 0 0; font-size: 14px; font-weight: bold; text-decoration: underline; }
 
-        table { width: 100%; border-collapse: collapse; margin-bottom: 12px; table-layout: fixed; border: 1px solid black; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 10px; table-layout: fixed; border: 1px solid black; }
         th, td { border: 1px solid black; padding: 6px; font-size: 11pt; word-wrap: break-word; vertical-align: middle; }
         th { background-color: #f2f2f2; text-align: left; }
         .center { text-align: center; }
@@ -111,15 +56,11 @@
         .sign-box { width: 45%; text-align: center; font-size: 11pt; }
         .sign-line { border-top: 1px solid #000; margin-top: 50px; padding-top: 5px; text-transform: uppercase; font-weight: bold; }
 
+        /* PHOTO GRID (SEPERTI KOD ANDA) */
+        .photo-page { page-break-before: always; padding-top: 10px; }
         .photo-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; justify-content: center; }
-        .img-wrapper { width: 48%; border: 1px solid #000; padding: 5px; text-align: center; box-sizing: border-box; }
+        .img-wrapper { width: 48%; border: 1px solid #000; padding: 5px; text-align: center; box-sizing: border-box; background: white; }
         .img-wrapper img { width: 100%; height: 160px; object-fit: contain; }
-
-        @media (min-width: 992px) {
-            .container { flex-direction: row; align-items: flex-start; }
-            .form-area { width: 35%; position: sticky; top: 10px; max-height: 95vh; overflow-y: auto; }
-            .preview-area { width: 65%; }
-        }
     </style>
 </head>
 <body>
@@ -140,7 +81,7 @@
             <option value="BULAN SABIT MERAH MALAYSIA (BSMM)">BSMM (Bulan Sabit Merah Malaysia)</option>
         </select>
 
-        <label>Kumpulan Sasaran (Klik untuk pilih)</label>
+        <label>Kumpulan Sasaran</label>
         <select id="sasaran" multiple style="height: 100px;">
             <option value="Murid Tahun 3">Murid Tahun 3</option>
             <option value="Murid Tahun 4">Murid Tahun 4</option>
@@ -150,36 +91,36 @@
 
         <div class="section-title">Data Kehadiran</div>
         <div class="attendance-box">
-            <p style="margin:0 0 5px 0; font-size:12px; font-weight:bold; color:#c0392b;">TKRS</p>
+            <p style="margin:0 0 5px 0; font-weight:bold; color:#c0392b;">TKRS</p>
             <div class="grid-2">
                 <input type="number" id="tkrs_l" placeholder="Lelaki" inputmode="numeric">
                 <input type="number" id="tkrs_p" placeholder="Perempuan" inputmode="numeric">
             </div>
         </div>
         <div class="attendance-box">
-            <p style="margin:0 0 5px 0; font-size:12px; font-weight:bold; color:#2980b9;">BSMM</p>
+            <p style="margin:0 0 5px 0; font-weight:bold; color:#2980b9;">BSMM</p>
             <div class="grid-2">
                 <input type="number" id="bsmm_l" placeholder="Lelaki" inputmode="numeric">
                 <input type="number" id="bsmm_p" placeholder="Perempuan" inputmode="numeric">
             </div>
         </div>
 
-        <div class="section-title">Nama Petugas Majlis</div>
-        <label>Juruacara & Perkongsian</label><input type="text" id="juruacara">
+        <div class="section-title">Nama Petugas</div>
+        <label>Juruacara</label><input type="text" id="juruacara">
         <label>Komander</label><input type="text" id="komander">
         <label>Bacaan Rukun Negara</label><input type="text" id="rukun">
-        <label>Pasukan Teknikal</label><input type="text" id="teknikal">
+        <label>Teknikal</label><input type="text" id="teknikal">
         <label>Persiapan Tempat</label><input type="text" id="persiapan">
 
-        <div class="section-title">Laporan & Pengesahan</div>
-        <label>Isi Ceramah</label><textarea id="ceramah" rows="2"></textarea>
-        <label>Ucapan Guru Besar</label><textarea id="ucapan_gb" rows="2"></textarea>
-        <label>Catatan Guru Bertugas</label><textarea id="catatan" rows="2"></textarea>
+        <div class="section-title">Laporan</div>
+        <label>Ceramah</label><textarea id="ceramah" rows="2"></textarea>
+        <label>Ucapan GB</label><textarea id="ucapan_gb" rows="2"></textarea>
+        <label>Catatan Guru</label><textarea id="catatan" rows="2"></textarea>
         
-        <label style="color: #d35400;">Disediakan Oleh (Nama Guru)</label>
-        <input type="text" id="nama_penyedia" placeholder="Nama Anda">
+        <label style="color: #d35400;">Disediakan Oleh</label>
+        <input type="text" id="nama_penyedia" placeholder="Nama Cikgu">
 
-        <label>Lampiran Gambar</label><input type="file" id="inputPhotos" accept="image/*" multiple>
+        <label>Gambar</label><input type="file" id="inputPhotos" accept="image/*" multiple>
 
         <button id="btnJana" class="btn-green" onclick="generatePDF()">MUAT TURUN PDF</button>
     </div>
@@ -255,7 +196,7 @@
                 </div>
             </div>
 
-            <div id="photo-area" style="page-break-before: always; padding-top: 15px;">
+            <div id="photo-area" class="photo-page">
                 <p style="text-align:center; font-weight:bold; text-decoration:underline;">LAMPIRAN GAMBAR</p>
                 <div id="pvPhotos" class="photo-grid"></div>
             </div>
@@ -267,7 +208,7 @@
     const inputTarikh = document.getElementById('tarikh');
     const selectSasaran = document.getElementById('sasaran');
 
-    // AUTO DATE FORMAT
+    // Auto Date
     inputTarikh.addEventListener('change', function() {
         if (this.value) {
             const d = new Date(this.value);
@@ -288,7 +229,7 @@
         const selected = Array.from(selectSasaran.selectedOptions).map(o => o.value);
         document.getElementById('pvSasaran').innerText = selected.length > 0 ? selected.join(", ") : "-";
 
-        // ATTENDANCE CALC
+        // Kira Kehadiran
         const tl = parseInt(document.getElementById('tkrs_l').value) || 0;
         const tp = parseInt(document.getElementById('tkrs_p').value) || 0;
         const bl = parseInt(document.getElementById('bsmm_l').value) || 0;
@@ -297,7 +238,6 @@
         document.getElementById('pvTkrsL').innerText = tl;
         document.getElementById('pvTkrsP').innerText = tp;
         document.getElementById('pvTkrsTot').innerText = tl + tp;
-
         document.getElementById('pvBsmmL').innerText = bl;
         document.getElementById('pvBsmmP').innerText = bp;
         document.getElementById('pvBsmmTot').innerText = bl + bp;
@@ -306,7 +246,7 @@
         document.getElementById('pvTotalP').innerText = tp + bp;
         document.getElementById('pvGrandTotal').innerText = tl + bl + tp + bp;
 
-        // TEXT FIELDS
+        // Teks
         document.getElementById('pvJuruacara').innerText = document.getElementById('juruacara').value || '-';
         document.getElementById('pvKomander').innerText = document.getElementById('komander').value || '-';
         document.getElementById('pvRukun').innerText = document.getElementById('rukun').value || '-';
@@ -322,7 +262,7 @@
 
     document.getElementById('inputPhotos').addEventListener('change', async function(e) {
         const container = document.getElementById('pvPhotos');
-        container.innerHTML = '<p style="width:100%; text-align:center;">Memproses...</p>';
+        container.innerHTML = '<p>Memproses...</p>';
         const files = Array.from(e.target.files);
         let html = '';
         for (let i = 0; i < files.length; i++) {
@@ -336,22 +276,20 @@
         container.innerHTML = html;
     });
 
-    // ---------------------------------------------------------
-    // FUNGSI JANA PDF (DIKEMASKINI: GUNA KAEDAH WIDTH 794 & TARIKH)
-    // ---------------------------------------------------------
+    // --- FUNGSI JANA PDF (100% SAMA SEPERTI KOD ANDA) ---
     async function generatePDF() {
         const btn = document.getElementById('btnJana');
-        const originalText = btn.innerText;
-        btn.innerText = "Sedang Menjana PDF...";
+        btn.innerText = "Menjana PDF...";
         btn.disabled = true;
-
+        
         const element = document.getElementById('pdf-content');
         
-        // Dapatkan tarikh dari input untuk nama fail (Contoh: 2026-01-29)
+        // Nama Fail + Tarikh
         const dateVal = document.getElementById('tarikh').value;
         const dateStr = dateVal ? dateVal : new Date().toISOString().split('T')[0];
         const fileName = `Laporan_Uniform_SJKC_ChungSan_${dateStr}.pdf`;
 
+        // KOD OPT ANDA (JANGAN UBAH)
         const opt = {
             margin: 0,
             filename: fileName,
@@ -359,8 +297,8 @@
             html2canvas: { 
                 scale: 2, 
                 useCORS: true, 
-                width: 794,       // MENGIKUT KAEDAH YANG ANDA BERI
-                windowWidth: 794, // UNTUK PASTIKAN STABIL DI MOBILE
+                width: 794,       // IKUT KOD ANDA
+                windowWidth: 794, // IKUT KOD ANDA
                 scrollY: 0,
                 scrollX: 0
             },
@@ -369,10 +307,8 @@
 
         try {
             await html2pdf().set(opt).from(element).save();
-        } catch (err) {
-            alert("Ralat: " + err.message);
         } finally {
-            btn.innerText = originalText;
+            btn.innerText = "MUAT TURUN PDF";
             btn.disabled = false;
         }
     }
