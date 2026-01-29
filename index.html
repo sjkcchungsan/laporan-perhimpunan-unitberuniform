@@ -24,40 +24,39 @@
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         
         .btn-green { background-color: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold; margin-top: 25px; transition: 0.3s; }
-        .btn-green:hover { background-color: #219150; }
 
         /* PDF PREVIEW */
         .preview-area { background: #444; padding: 15px; overflow-x: auto; display: flex; justify-content: center; }
-        #pdf-content { background: white; width: 210mm; min-height: 297mm; padding: 15mm; box-sizing: border-box; flex-shrink: 0; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+        #pdf-content { background: white; width: 210mm; min-height: 297mm; padding: 15mm; box-sizing: border-box; flex-shrink: 0; }
         
         .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
         .header img { max-width: 90px; height: auto; margin-bottom: 10px; }
-        .header h1 { margin: 0; font-size: 22px; color: #000; }
+        .header h1 { margin: 0; font-size: 22px; }
         .header p { margin: 5px 0 0 0; font-size: 16px; font-weight: bold; text-decoration: underline; }
 
         table { width: 100%; border-collapse: collapse; margin-bottom: 12px; table-layout: fixed; }
-        th, td { border: 1px solid black; padding: 7px; font-size: 12px; word-wrap: break-word; vertical-align: middle; }
+        th, td { border: 1px solid black; padding: 7px; font-size: 12px; word-wrap: break-word; }
         th { background-color: #f2f2f2; text-align: left; }
         .center { text-align: center; }
+
+        .sign-section { margin-top: 40px; display: flex; justify-content: space-between; }
+        .sign-box { width: 45%; text-align: center; font-size: 12px; }
+        .sign-line { border-top: 1px solid #000; margin-top: 50px; padding-top: 5px; text-transform: uppercase; font-weight: bold; }
 
         .photo-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
         .img-wrapper { width: 48%; border: 1px solid #000; padding: 5px; text-align: center; box-sizing: border-box; }
         .img-wrapper img { width: 100%; height: 180px; object-fit: contain; }
-
-        .sign-section { margin-top: 40px; display: flex; justify-content: space-between; }
-        .sign-box { width: 40%; text-align: center; font-size: 13px; }
-        .sign-line { border-top: 1px solid #000; margin-top: 60px; padding-top: 5px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="form-area">
-        <h3 style="margin:0; color:#2980b9; border-left: 4px solid #2980b9; padding-left: 10px;">Laporan Uniform 2026</h3>
+        <h3 style="margin:0; color:#2980b9;">Input Laporan Uniform</h3>
         
         <label>Tarikh</label><input type="date" id="tarikh">
-        <label>Hari</label><input type="text" id="hari" readonly placeholder="Pilih tarikh di atas">
-        <label>Masa</label><input type="text" id="masa" placeholder="Contoh: 1:00 tengah hari">
+        <label>Hari</label><input type="text" id="hari" readonly>
+        <label>Masa</label><input type="text" id="masa" placeholder="1:00 tengah hari">
         <label>Tempat</label><input type="text" id="tempat" placeholder="Dewan SJK(C) Chung San">
         
         <label>Unit Beruniform Bertugas</label>
@@ -67,7 +66,7 @@
             <option value="BULAN SABIT MERAH MALAYSIA (BSMM)">BULAN SABIT MERAH MALAYSIA (BSMM)</option>
         </select>
 
-        <label>Kumpulan Sasaran (Klik untuk pilih banyak)</label>
+        <label>Kumpulan Sasaran (Klik banyak)</label>
         <select id="sasaran" multiple style="height: 100px;">
             <option value="Murid Tahun 3">Murid Tahun 3</option>
             <option value="Murid Tahun 4">Murid Tahun 4</option>
@@ -77,42 +76,44 @@
 
         <div class="section-title">Data Kehadiran Murid</div>
         <div class="attendance-box">
-            <p style="margin:0 0 8px 0; font-size:12px; font-weight:bold; color:#c0392b;">TUNAS KADET REMAJA SEKOLAH (TKRS)</p>
+            <p style="margin:0 0 5px 0; font-size:11px; font-weight:bold;">TKRS</p>
             <div class="grid-2">
-                <input type="number" id="tkrs_l" placeholder="Lelaki" oninput="updatePreview()">
-                <input type="number" id="tkrs_p" placeholder="Perempuan" oninput="updatePreview()">
+                <input type="number" id="tkrs_l" placeholder="Lelaki">
+                <input type="number" id="tkrs_p" placeholder="Perempuan">
             </div>
         </div>
         <div class="attendance-box">
-            <p style="margin:0 0 8px 0; font-size:12px; font-weight:bold; color:#2980b9;">BULAN SABIT MERAH MALAYSIA (BSMM)</p>
+            <p style="margin:0 0 5px 0; font-size:11px; font-weight:bold;">BSMM</p>
             <div class="grid-2">
-                <input type="number" id="bsmm_l" placeholder="Lelaki" oninput="updatePreview()">
-                <input type="number" id="bsmm_p" placeholder="Perempuan" oninput="updatePreview()">
+                <input type="number" id="bsmm_l" placeholder="Lelaki">
+                <input type="number" id="bsmm_p" placeholder="Perempuan">
             </div>
         </div>
 
-        <div class="section-title">Petugas Majlis</div>
+        <div class="section-title">Nama Petugas Majlis</div>
         <label>Juruacara & Perkongsian</label><input type="text" id="juruacara">
         <label>Komander</label><input type="text" id="komander">
         <label>Bacaan Rukun Negara</label><input type="text" id="rukun">
         <label>Pasukan Teknikal</label><input type="text" id="teknikal">
         <label>Persiapan Tempat</label><input type="text" id="persiapan">
 
-        <div class="section-title">Laporan Aktiviti</div>
+        <div class="section-title">Laporan & Pengesahan</div>
         <label>Isi Ceramah</label><textarea id="ceramah" rows="2"></textarea>
-        <label>Penyampaian Hadiah/Sijil</label><textarea id="hadiah" rows="2"></textarea>
         <label>Ucapan Guru Besar</label><textarea id="ucapan_gb" rows="2"></textarea>
         <label>Catatan Guru Bertugas</label><textarea id="catatan" rows="2"></textarea>
         
+        <label style="color: #c0392b;">Disediakan Oleh (Nama Guru)</label>
+        <input type="text" id="nama_penyedia" placeholder="Masukkan Nama Anda">
+
         <label>Lampiran Gambar</label><input type="file" id="inputPhotos" accept="image/*" multiple>
 
-        <button id="btnJana" class="btn-green" onclick="generatePDF()">JANA & MUAT TURUN PDF</button>
+        <button id="btnJana" class="btn-green" onclick="generatePDF()">JANA PDF</button>
     </div>
 
     <div class="preview-area">
         <div id="pdf-content">
             <div class="header">
-                <img src="Picture1 - Copy.png" alt="Logo SJK(C) Chung San">
+                <img src="Picture1 - Copy.png" alt="Logo Sekolah">
                 <h1>SJK(C) CHUNG SAN</h1>
                 <p>LAPORAN PERHIMPUNAN UNIT BERUNIFORM TAHUN 2026</p>
             </div>
@@ -129,28 +130,25 @@
                 <tr>
                     <th rowspan="2" class="center">UNIT BERUNIFORM</th>
                     <th colspan="2" class="center">KEHADIRAN</th>
-                    <th rowspan="2" class="center">JUMLAH AHIL</th>
+                    <th rowspan="2" class="center">JUMLAH</th>
                 </tr>
                 <tr>
-                    <th class="center" width="20%">LELAKI</th>
-                    <th class="center" width="20%">PEREMPUAN</th>
+                    <th class="center">LELAKI</th><th class="center">PEREMPUAN</th>
                 </tr>
                 <tr>
                     <td>TUNAS KADET REMAJA SEKOLAH (TKRS)</td>
-                    <td id="pvTkrsL" class="center">0</td>
-                    <td id="pvTkrsP" class="center">0</td>
-                    <td id="pvTkrsTot" class="center" style="font-weight:bold;">0</td>
+                    <td id="pvTkrsL" class="center">0</td><td id="pvTkrsP" class="center">0</td>
+                    <td id="pvTkrsTot" class="center">0</td>
                 </tr>
                 <tr>
                     <td>BULAN SABIT MERAH MALAYSIA (BSMM)</td>
-                    <td id="pvBsmmL" class="center">0</td>
-                    <td id="pvBsmmP" class="center">0</td>
-                    <td id="pvBsmmTot" class="center" style="font-weight:bold;">0</td>
+                    <td id="pvBsmmL" class="center">0</td><td id="pvBsmmP" class="center">0</td>
+                    <td id="pvBsmmTot" class="center">0</td>
                 </tr>
             </table>
 
             <table>
-                <tr style="background:#eee;"><th colspan="2" class="center">JAWATANKUASA PETUGAS</th></tr>
+                <tr style="background:#eee;"><th colspan="2" class="center">NAMA PETUGAS MAJLIS</th></tr>
                 <tr><th width="35%">Juruacara & Perkongsian</th><td id="pvJuruacara">-</td></tr>
                 <tr><th>Komander</th><td id="pvKomander">-</td></tr>
                 <tr><th>Bacaan Rukun Negara</th><td id="pvRukun">-</td></tr>
@@ -159,27 +157,25 @@
             </table>
 
             <table>
-                <tr style="background:#eee;"><th colspan="2" class="center">RINGKASAN AKTIVITI & CATATAN</th></tr>
-                <tr><td colspan="2" style="font-style: italic; font-size: 11px;">1. Nyanyian Lagu Negaraku & Ibu Pertiwiku | 2. Ikrar Murid & Rukun Negara | 3. Nyanyian Lagu Sekolah</td></tr>
-                <tr><th width="35%">Ceramah</th><td id="pvCeramah">-</td></tr>
-                <tr><th>Penyampaian Hadiah/Sijil</th><td id="pvHadiah">-</td></tr>
+                <tr style="background:#eee;"><th colspan="2" class="center">LAPORAN AKTIVITI</th></tr>
+                <tr><th width="35%">Isi Ceramah</th><td id="pvCeramah">-</td></tr>
                 <tr><th>Ucapan Guru Besar</th><td id="pvGB">-</td></tr>
                 <tr><th>Catatan Guru Bertugas</th><td id="pvCatatan">-</td></tr>
             </table>
 
             <div class="sign-section">
                 <div class="sign-box">
-                    <div class="sign-line">Tandatangan Guru Bertugas</div>
-                    <p>(Nama: ........................................)</p>
+                    <div class="sign-line" id="pvNamaPenyedia">NAMA GURU</div>
+                    <p>Disediakan Oleh</p>
                 </div>
                 <div class="sign-box">
-                    <div class="sign-line"><strong>LING LEE ANN</strong></div>
+                    <div class="sign-line">LING LEE ANN</div>
                     <p>Guru Besar SJK(C) Chung San</p>
                 </div>
             </div>
 
             <div id="photo-area" style="page-break-before: always; padding-top: 10px;">
-                <p style="text-align:center; font-weight:bold; text-decoration:underline; font-size:14px;">LAMPIRAN GAMBAR PERHIMPUNAN</p>
+                <p style="text-align:center; font-weight:bold; text-decoration:underline;">LAMPIRAN GAMBAR</p>
                 <div id="pvPhotos" class="photo-grid"></div>
             </div>
         </div>
@@ -190,7 +186,6 @@
     const inputTarikh = document.getElementById('tarikh');
     const selectSasaran = document.getElementById('sasaran');
 
-    // Auto-update Hari dan Tarikh Format Melayu
     inputTarikh.addEventListener('change', function() {
         if (this.value) {
             const d = new Date(this.value);
@@ -204,23 +199,20 @@
     });
 
     function updatePreview() {
-        // Asas
         document.getElementById('pvMasa').innerText = document.getElementById('masa').value || '-';
         document.getElementById('pvTempat').innerText = document.getElementById('tempat').value || '-';
         document.getElementById('pvUnit').innerText = document.getElementById('unit').value || '-';
         
-        // Multi-select sasaran
         const selected = Array.from(selectSasaran.selectedOptions).map(o => o.value);
         document.getElementById('pvSasaran').innerText = selected.length > 0 ? selected.join(", ") : "-";
 
-        // Kehadiran TKRS
+        // Kehadiran
         const tl = parseInt(document.getElementById('tkrs_l').value) || 0;
         const tp = parseInt(document.getElementById('tkrs_p').value) || 0;
         document.getElementById('pvTkrsL').innerText = tl;
         document.getElementById('pvTkrsP').innerText = tp;
         document.getElementById('pvTkrsTot').innerText = tl + tp;
 
-        // Kehadiran BSMM
         const bl = parseInt(document.getElementById('bsmm_l').value) || 0;
         const bp = parseInt(document.getElementById('bsmm_p').value) || 0;
         document.getElementById('pvBsmmL').innerText = bl;
@@ -234,23 +226,20 @@
         document.getElementById('pvTeknikal').innerText = document.getElementById('teknikal').value || '-';
         document.getElementById('pvPersiapan').innerText = document.getElementById('persiapan').value || '-';
         document.getElementById('pvCeramah').innerText = document.getElementById('ceramah').value || '-';
-        document.getElementById('pvHadiah').innerText = document.getElementById('hadiah').value || '-';
         document.getElementById('pvGB').innerText = document.getElementById('ucapan_gb').value || '-';
         document.getElementById('pvCatatan').innerText = document.getElementById('catatan').value || '-';
+        
+        // Nama Penyedia
+        document.getElementById('pvNamaPenyedia').innerText = document.getElementById('nama_penyedia').value || 'NAMA GURU';
     }
 
-    // Listener untuk semua input
-    document.querySelectorAll('input, textarea, select').forEach(el => {
-        el.addEventListener('input', updatePreview);
-    });
+    document.querySelectorAll('input, textarea, select').forEach(el => el.addEventListener('input', updatePreview));
 
-    // Proses Gambar
     document.getElementById('inputPhotos').addEventListener('change', async function(e) {
         const container = document.getElementById('pvPhotos');
-        container.innerHTML = '<p style="font-size:12px;">Memproses imej...</p>';
+        container.innerHTML = 'Memproses...';
         const files = Array.from(e.target.files);
         let html = '';
-        
         for (let i = 0; i < files.length; i++) {
             const dataUrl = await new Promise(r => {
                 const fr = new FileReader();
@@ -262,33 +251,25 @@
         container.innerHTML = html;
     });
 
-    // Fungsi PDF
     async function generatePDF() {
         const btn = document.getElementById('btnJana');
-        btn.innerText = "Menghasilkan PDF...";
+        btn.innerText = "Sila Tunggu...";
         btn.disabled = true;
-
         const element = document.getElementById('pdf-content');
         const opt = {
             margin: 5,
-            filename: `Laporan_Perhimpunan_Uniform_SJKC_Chung_San_${inputTarikh.value}.pdf`,
+            filename: `Laporan_Uniform_SJKC_ChungSan.pdf`,
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2, useCORS: true },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
-
         try {
             await html2pdf().set(opt).from(element).save();
-        } catch (error) {
-            alert("Ralat menjana PDF: " + error);
         } finally {
-            btn.innerText = "JANA & MUAT TURUN PDF";
+            btn.innerText = "JANA PDF";
             btn.disabled = false;
         }
     }
-
-    // Inisialisasi awal
-    window.onload = updatePreview;
 </script>
 </body>
 </html>
