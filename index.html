@@ -24,6 +24,7 @@
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         
         .btn-green { background-color: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold; margin-top: 25px; transition: 0.3s; }
+        .btn-green:hover { background-color: #219150; }
 
         /* PDF PREVIEW */
         .preview-area { background: #444; padding: 15px; overflow-x: auto; display: flex; justify-content: center; }
@@ -76,17 +77,17 @@
 
         <div class="section-title">Data Kehadiran Murid</div>
         <div class="attendance-box">
-            <p style="margin:0 0 5px 0; font-size:11px; font-weight:bold;">TKRS</p>
+            <p style="margin:0 0 5px 0; font-size:11px; font-weight:bold; color:#c0392b;">TKRS (Tunas Kadet Remaja Sekolah)</p>
             <div class="grid-2">
-                <input type="number" id="tkrs_l" placeholder="Lelaki">
-                <input type="number" id="tkrs_p" placeholder="Perempuan">
+                <input type="number" id="tkrs_l" placeholder="Lelaki" oninput="updatePreview()">
+                <input type="number" id="tkrs_p" placeholder="Perempuan" oninput="updatePreview()">
             </div>
         </div>
         <div class="attendance-box">
-            <p style="margin:0 0 5px 0; font-size:11px; font-weight:bold;">BSMM</p>
+            <p style="margin:0 0 5px 0; font-size:11px; font-weight:bold; color:#2980b9;">BSMM (Bulan Sabit Merah Malaysia)</p>
             <div class="grid-2">
-                <input type="number" id="bsmm_l" placeholder="Lelaki">
-                <input type="number" id="bsmm_p" placeholder="Perempuan">
+                <input type="number" id="bsmm_l" placeholder="Lelaki" oninput="updatePreview()">
+                <input type="number" id="bsmm_p" placeholder="Perempuan" oninput="updatePreview()">
             </div>
         </div>
 
@@ -145,6 +146,12 @@
                     <td id="pvBsmmL" class="center">0</td><td id="pvBsmmP" class="center">0</td>
                     <td id="pvBsmmTot" class="center">0</td>
                 </tr>
+                <tr style="background-color: #e0e0e0; font-weight: bold;">
+                    <td>KESELURUHAN KEHADIRAN</td>
+                    <td id="pvTotalL" class="center">0</td>
+                    <td id="pvTotalP" class="center">0</td>
+                    <td id="pvGrandTotal" class="center">0</td>
+                </tr>
             </table>
 
             <table>
@@ -158,6 +165,7 @@
 
             <table>
                 <tr style="background:#eee;"><th colspan="2" class="center">LAPORAN AKTIVITI</th></tr>
+                <tr><td colspan="2" style="font-style:italic; font-size:11px;">1. Nyanyian Lagu Negaraku & Ibu Pertiwiku | 2. Ikrar Murid & Rukun Negara | 3. Nyanyian Lagu Sekolah</td></tr>
                 <tr><th width="35%">Isi Ceramah</th><td id="pvCeramah">-</td></tr>
                 <tr><th>Ucapan Guru Besar</th><td id="pvGB">-</td></tr>
                 <tr><th>Catatan Guru Bertugas</th><td id="pvCatatan">-</td></tr>
@@ -206,18 +214,29 @@
         const selected = Array.from(selectSasaran.selectedOptions).map(o => o.value);
         document.getElementById('pvSasaran').innerText = selected.length > 0 ? selected.join(", ") : "-";
 
-        // Kehadiran
+        // PENGIRAAN KEHADIRAN
         const tl = parseInt(document.getElementById('tkrs_l').value) || 0;
         const tp = parseInt(document.getElementById('tkrs_p').value) || 0;
+        const bl = parseInt(document.getElementById('bsmm_l').value) || 0;
+        const bp = parseInt(document.getElementById('bsmm_p').value) || 0;
+
+        // Update Individual
         document.getElementById('pvTkrsL').innerText = tl;
         document.getElementById('pvTkrsP').innerText = tp;
         document.getElementById('pvTkrsTot').innerText = tl + tp;
 
-        const bl = parseInt(document.getElementById('bsmm_l').value) || 0;
-        const bp = parseInt(document.getElementById('bsmm_p').value) || 0;
         document.getElementById('pvBsmmL').innerText = bl;
         document.getElementById('pvBsmmP').innerText = bp;
         document.getElementById('pvBsmmTot').innerText = bl + bp;
+
+        // UPDATE KESELURUHAN (TOTAL)
+        const totalL = tl + bl;
+        const totalP = tp + bp;
+        const grandTotal = totalL + totalP;
+
+        document.getElementById('pvTotalL').innerText = totalL;
+        document.getElementById('pvTotalP').innerText = totalP;
+        document.getElementById('pvGrandTotal').innerText = grandTotal;
 
         // Petugas & Laporan
         document.getElementById('pvJuruacara').innerText = document.getElementById('juruacara').value || '-';
