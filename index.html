@@ -6,7 +6,7 @@
     <title>Laporan Unit Beruniform SJK(C) Chung San</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 10px; }
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 10px; }
         .container { display: flex; flex-direction: column; gap: 20px; }
         
         @media (min-width: 992px) {
@@ -16,107 +16,109 @@
         }
 
         .form-area { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        label { font-weight: bold; display: block; margin-top: 15px; font-size: 0.85rem; color: #34495e; }
+        label { font-weight: bold; display: block; margin-top: 15px; font-size: 0.85rem; color: #2c3e50; }
         input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 0.9rem; }
         
+        .section-title { background: #34495e; color: white; padding: 8px 10px; margin-top: 20px; border-radius: 4px; font-size: 0.9rem; font-weight: bold; }
+        .attendance-box { background: #fdfdfd; padding: 12px; border: 1px solid #eee; border-radius: 8px; margin-top: 10px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .section-title { background: #2c3e50; color: white; padding: 8px 10px; margin-top: 20px; border-radius: 4px; font-size: 0.9rem; }
-        .btn-green { background-color: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold; margin-top: 25px; }
-
-        /* PREVIEW PDF STYLE */
-        .preview-area { background: #555; padding: 10px; overflow-x: auto; display: flex; justify-content: center; }
-        #pdf-content { background: white; width: 210mm; min-height: 297mm; padding: 15mm; box-sizing: border-box; margin: 0; flex-shrink: 0; }
         
-        .header-table { width: 100%; border: none; margin-bottom: 20px; }
-        .header-table td { border: none; vertical-align: middle; text-align: center; }
-        .header-table img { max-width: 80px; }
-        .header-table h1 { margin: 0; font-size: 20px; }
-        .header-table h2 { margin: 5px 0; font-size: 16px; text-decoration: underline; }
+        .btn-green { background-color: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold; margin-top: 25px; transition: 0.3s; }
+        .btn-green:hover { background-color: #219150; }
+
+        /* PDF PREVIEW */
+        .preview-area { background: #444; padding: 15px; overflow-x: auto; display: flex; justify-content: center; }
+        #pdf-content { background: white; width: 210mm; min-height: 297mm; padding: 15mm; box-sizing: border-box; flex-shrink: 0; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+        
+        .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
+        .header img { max-width: 90px; height: auto; margin-bottom: 10px; }
+        .header h1 { margin: 0; font-size: 22px; color: #000; }
+        .header p { margin: 5px 0 0 0; font-size: 16px; font-weight: bold; text-decoration: underline; }
 
         table { width: 100%; border-collapse: collapse; margin-bottom: 12px; table-layout: fixed; }
-        th, td { border: 1px solid black; padding: 6px; font-size: 12px; word-wrap: break-word; }
-        th { background-color: #f2f2f2; width: 30%; text-align: left; }
+        th, td { border: 1px solid black; padding: 7px; font-size: 12px; word-wrap: break-word; vertical-align: middle; }
+        th { background-color: #f2f2f2; text-align: left; }
+        .center { text-align: center; }
 
         .photo-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
         .img-wrapper { width: 48%; border: 1px solid #000; padding: 5px; text-align: center; box-sizing: border-box; }
         .img-wrapper img { width: 100%; height: 180px; object-fit: contain; }
 
-        .sign-table { border: none; margin-top: 30px; }
-        .sign-table td { border: none; width: 50%; text-align: center; padding-top: 40px; }
+        .sign-section { margin-top: 40px; display: flex; justify-content: space-between; }
+        .sign-box { width: 40%; text-align: center; font-size: 13px; }
+        .sign-line { border-top: 1px solid #000; margin-top: 60px; padding-top: 5px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="form-area">
-        <h3 style="margin:0; color:#c0392b;">Input Laporan Uniform</h3>
+        <h3 style="margin:0; color:#2980b9; border-left: 4px solid #2980b9; padding-left: 10px;">Laporan Uniform 2026</h3>
         
-        <div class="section-title">Maklumat Asas</div>
         <label>Tarikh</label><input type="date" id="tarikh">
-        <label>Hari</label><input type="text" id="hari" readonly placeholder="Auto-isi">
+        <label>Hari</label><input type="text" id="hari" readonly placeholder="Pilih tarikh di atas">
         <label>Masa</label><input type="text" id="masa" placeholder="Contoh: 1:00 tengah hari">
-        <label>Tempat</label><input type="text" id="tempat" placeholder="Contoh: Dewan SJK(C) Chung San">
+        <label>Tempat</label><input type="text" id="tempat" placeholder="Dewan SJK(C) Chung San">
         
-        <div class="section-title">Unit & Sasaran</div>
         <label>Unit Beruniform Bertugas</label>
         <select id="unit">
-            <option value="">-- Pilih Unit --</option>
-            <option value="TUNAS KADET REMAJA SEKOLAH (TKRS)">TKRS</option>
-            <option value="BULAN SABIT MERAH MALAYSIA (BSMM)">BSMM</option>
+            <option value="">-- Sila Pilih --</option>
+            <option value="TUNAS KADET REMAJA SEKOLAH (TKRS)">TUNAS KADET REMAJA SEKOLAH (TKRS)</option>
+            <option value="BULAN SABIT MERAH MALAYSIA (BSMM)">BULAN SABIT MERAH MALAYSIA (BSMM)</option>
         </select>
 
-        <label>Kumpulan Sasaran (Guna Ctrl untuk pilih >1)</label>
-        <select id="sasaran" multiple size="4">
+        <label>Kumpulan Sasaran (Klik untuk pilih banyak)</label>
+        <select id="sasaran" multiple style="height: 100px;">
             <option value="Murid Tahun 3">Murid Tahun 3</option>
             <option value="Murid Tahun 4">Murid Tahun 4</option>
             <option value="Murid Tahun 5">Murid Tahun 5</option>
             <option value="Murid Tahun 6">Murid Tahun 6</option>
         </select>
 
-        <div class="grid-2">
-            <div>
-                <label>Lelaki Hadir</label>
-                <input type="number" id="hadir_l" value="0">
+        <div class="section-title">Data Kehadiran Murid</div>
+        <div class="attendance-box">
+            <p style="margin:0 0 8px 0; font-size:12px; font-weight:bold; color:#c0392b;">TUNAS KADET REMAJA SEKOLAH (TKRS)</p>
+            <div class="grid-2">
+                <input type="number" id="tkrs_l" placeholder="Lelaki" oninput="updatePreview()">
+                <input type="number" id="tkrs_p" placeholder="Perempuan" oninput="updatePreview()">
             </div>
-            <div>
-                <label>Perempuan Hadir</label>
-                <input type="number" id="hadir_p" value="0">
+        </div>
+        <div class="attendance-box">
+            <p style="margin:0 0 8px 0; font-size:12px; font-weight:bold; color:#2980b9;">BULAN SABIT MERAH MALAYSIA (BSMM)</p>
+            <div class="grid-2">
+                <input type="number" id="bsmm_l" placeholder="Lelaki" oninput="updatePreview()">
+                <input type="number" id="bsmm_p" placeholder="Perempuan" oninput="updatePreview()">
             </div>
         </div>
 
         <div class="section-title">Petugas Majlis</div>
-        <label>Juruacara Majlis & Perkongsian</label><input type="text" id="juruacara">
+        <label>Juruacara & Perkongsian</label><input type="text" id="juruacara">
         <label>Komander</label><input type="text" id="komander">
         <label>Bacaan Rukun Negara</label><input type="text" id="rukun">
-        <label>Teknikal</label><input type="text" id="teknikal">
+        <label>Pasukan Teknikal</label><input type="text" id="teknikal">
         <label>Persiapan Tempat</label><input type="text" id="persiapan">
 
-        <div class="section-title">Aktiviti & Catatan</div>
+        <div class="section-title">Laporan Aktiviti</div>
         <label>Isi Ceramah</label><textarea id="ceramah" rows="2"></textarea>
         <label>Penyampaian Hadiah/Sijil</label><textarea id="hadiah" rows="2"></textarea>
         <label>Ucapan Guru Besar</label><textarea id="ucapan_gb" rows="2"></textarea>
         <label>Catatan Guru Bertugas</label><textarea id="catatan" rows="2"></textarea>
         
-        <label>Muat Naik Gambar</label><input type="file" id="inputPhotos" accept="image/*" multiple>
+        <label>Lampiran Gambar</label><input type="file" id="inputPhotos" accept="image/*" multiple>
 
-        <button id="btnJana" class="btn-green" onclick="generatePDF()">MUAT TURUN PDF</button>
+        <button id="btnJana" class="btn-green" onclick="generatePDF()">JANA & MUAT TURUN PDF</button>
     </div>
 
     <div class="preview-area">
         <div id="pdf-content">
-            <table class="header-table">
-                <tr>
-                    <td width="15%"><img src="logo.png" alt="Logo"></td>
-                    <td>
-                        <h1>SJK(C) CHUNG SAN</h1>
-                        <h2>LAPORAN PERHIMPUNAN UNIT BERUNIFORM TAHUN 2026</h2>
-                    </td>
-                    <td width="15%"></td>
-                </tr>
-            </table>
+            <div class="header">
+                <img src="Picture1 - Copy.png" alt="Logo SJK(C) Chung San">
+                <h1>SJK(C) CHUNG SAN</h1>
+                <p>LAPORAN PERHIMPUNAN UNIT BERUNIFORM TAHUN 2026</p>
+            </div>
 
             <table>
-                <tr><th>Tarikh / Hari</th><td id="pvTarikhHari">-</td></tr>
+                <tr><th width="35%">Tarikh / Hari</th><td id="pvTarikhHari">-</td></tr>
                 <tr><th>Masa</th><td id="pvMasa">-</td></tr>
                 <tr><th>Tempat</th><td id="pvTempat">-</td></tr>
                 <tr><th>Unit Bertugas</th><td id="pvUnit" style="font-weight:bold;">-</td></tr>
@@ -125,47 +127,59 @@
 
             <table>
                 <tr>
-                    <th rowspan="2" style="text-align:center; background:#eee;">KEHADIRAN</th>
-                    <th style="text-align:center; background:#eee;">Lelaki</th>
-                    <th style="text-align:center; background:#eee;">Perempuan</th>
-                    <th style="text-align:center; background:#eee;">Jumlah</th>
+                    <th rowspan="2" class="center">UNIT BERUNIFORM</th>
+                    <th colspan="2" class="center">KEHADIRAN</th>
+                    <th rowspan="2" class="center">JUMLAH AHIL</th>
                 </tr>
                 <tr>
-                    <td id="pvL" style="text-align:center;">0</td>
-                    <td id="pvP" style="text-align:center;">0</td>
-                    <td id="pvTotal" style="text-align:center; font-weight:bold;">0</td>
+                    <th class="center" width="20%">LELAKI</th>
+                    <th class="center" width="20%">PEREMPUAN</th>
+                </tr>
+                <tr>
+                    <td>TUNAS KADET REMAJA SEKOLAH (TKRS)</td>
+                    <td id="pvTkrsL" class="center">0</td>
+                    <td id="pvTkrsP" class="center">0</td>
+                    <td id="pvTkrsTot" class="center" style="font-weight:bold;">0</td>
+                </tr>
+                <tr>
+                    <td>BULAN SABIT MERAH MALAYSIA (BSMM)</td>
+                    <td id="pvBsmmL" class="center">0</td>
+                    <td id="pvBsmmP" class="center">0</td>
+                    <td id="pvBsmmTot" class="center" style="font-weight:bold;">0</td>
                 </tr>
             </table>
 
             <table>
-                <tr><th colspan="2" style="text-align:center; background:#eee;">JAWATANKUASA PETUGAS</th></tr>
-                <tr><th>Juruacara & Perkongsian</th><td id="pvJuruacara">-</td></tr>
+                <tr style="background:#eee;"><th colspan="2" class="center">JAWATANKUASA PETUGAS</th></tr>
+                <tr><th width="35%">Juruacara & Perkongsian</th><td id="pvJuruacara">-</td></tr>
                 <tr><th>Komander</th><td id="pvKomander">-</td></tr>
                 <tr><th>Bacaan Rukun Negara</th><td id="pvRukun">-</td></tr>
                 <tr><th>Teknikal</th><td id="pvTeknikal">-</td></tr>
                 <tr><th>Persiapan Tempat</th><td id="pvPersiapan">-</td></tr>
             </table>
 
-            <table style="border-top: 2px solid black;">
-                <tr><th colspan="2" style="text-align:center; background:#eee;">RINGKASAN AKTIVITI</th></tr>
-                <tr><td colspan="2" style="font-size:11px;">
-                    1. Nyanyian Lagu Negaraku & Ibu Pertiwiku | 2. Ikrar Murid & Rukun Negara | 3. Nyanyian Lagu Sekolah
-                </td></tr>
-                <tr><th>Ceramah</th><td id="pvCeramah">-</td></tr>
-                <tr><th>Penyampaian Hadiah</th><td id="pvHadiah">-</td></tr>
+            <table>
+                <tr style="background:#eee;"><th colspan="2" class="center">RINGKASAN AKTIVITI & CATATAN</th></tr>
+                <tr><td colspan="2" style="font-style: italic; font-size: 11px;">1. Nyanyian Lagu Negaraku & Ibu Pertiwiku | 2. Ikrar Murid & Rukun Negara | 3. Nyanyian Lagu Sekolah</td></tr>
+                <tr><th width="35%">Ceramah</th><td id="pvCeramah">-</td></tr>
+                <tr><th>Penyampaian Hadiah/Sijil</th><td id="pvHadiah">-</td></tr>
                 <tr><th>Ucapan Guru Besar</th><td id="pvGB">-</td></tr>
                 <tr><th>Catatan Guru Bertugas</th><td id="pvCatatan">-</td></tr>
             </table>
 
-            <table class="sign-table">
-                <tr>
-                    <td>____________________<br>Tandatangan Guru Bertugas</td>
-                    <td><strong>LING LEE ANN</strong><br>Guru Besar SJK(C) Chung San</td>
-                </tr>
-            </table>
+            <div class="sign-section">
+                <div class="sign-box">
+                    <div class="sign-line">Tandatangan Guru Bertugas</div>
+                    <p>(Nama: ........................................)</p>
+                </div>
+                <div class="sign-box">
+                    <div class="sign-line"><strong>LING LEE ANN</strong></div>
+                    <p>Guru Besar SJK(C) Chung San</p>
+                </div>
+            </div>
 
-            <div id="photo-area" style="page-break-before: always;">
-                <h3 style="text-decoration: underline; font-size: 14px; text-align: center;">LAMPIRAN GAMBAR</h3>
+            <div id="photo-area" style="page-break-before: always; padding-top: 10px;">
+                <p style="text-align:center; font-weight:bold; text-decoration:underline; font-size:14px;">LAMPIRAN GAMBAR PERHIMPUNAN</p>
                 <div id="pvPhotos" class="photo-grid"></div>
             </div>
         </div>
@@ -176,35 +190,44 @@
     const inputTarikh = document.getElementById('tarikh');
     const selectSasaran = document.getElementById('sasaran');
 
+    // Auto-update Hari dan Tarikh Format Melayu
     inputTarikh.addEventListener('change', function() {
         if (this.value) {
-            const date = new Date(this.value);
+            const d = new Date(this.value);
             const days = ["Ahad", "Isnin", "Selasa", "Rabu", "Khamis", "Jumaat", "Sabtu"];
             const months = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"];
-            const hari = days[date.getDay()];
-            document.getElementById('hari').value = hari;
-            document.getElementById('pvTarikhHari').innerText = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()} (${hari})`;
+            const h = days[d.getDay()];
+            document.getElementById('hari').value = h;
+            document.getElementById('pvTarikhHari').innerText = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} (${h})`;
         }
         updatePreview();
     });
 
     function updatePreview() {
+        // Asas
         document.getElementById('pvMasa').innerText = document.getElementById('masa').value || '-';
         document.getElementById('pvTempat').innerText = document.getElementById('tempat').value || '-';
         document.getElementById('pvUnit').innerText = document.getElementById('unit').value || '-';
         
-        // Handle Multi-select
-        const selectedSasaran = Array.from(selectSasaran.selectedOptions).map(option => option.value);
-        document.getElementById('pvSasaran').innerText = selectedSasaran.length > 0 ? selectedSasaran.join(", ") : "-";
+        // Multi-select sasaran
+        const selected = Array.from(selectSasaran.selectedOptions).map(o => o.value);
+        document.getElementById('pvSasaran').innerText = selected.length > 0 ? selected.join(", ") : "-";
 
-        // Hadir
-        const l = parseInt(document.getElementById('hadir_l').value) || 0;
-        const p = parseInt(document.getElementById('hadir_p').value) || 0;
-        document.getElementById('pvL').innerText = l;
-        document.getElementById('pvP').innerText = p;
-        document.getElementById('pvTotal').innerText = l + p;
+        // Kehadiran TKRS
+        const tl = parseInt(document.getElementById('tkrs_l').value) || 0;
+        const tp = parseInt(document.getElementById('tkrs_p').value) || 0;
+        document.getElementById('pvTkrsL').innerText = tl;
+        document.getElementById('pvTkrsP').innerText = tp;
+        document.getElementById('pvTkrsTot').innerText = tl + tp;
 
-        // Lain-lain
+        // Kehadiran BSMM
+        const bl = parseInt(document.getElementById('bsmm_l').value) || 0;
+        const bp = parseInt(document.getElementById('bsmm_p').value) || 0;
+        document.getElementById('pvBsmmL').innerText = bl;
+        document.getElementById('pvBsmmP').innerText = bp;
+        document.getElementById('pvBsmmTot').innerText = bl + bp;
+
+        // Petugas & Laporan
         document.getElementById('pvJuruacara').innerText = document.getElementById('juruacara').value || '-';
         document.getElementById('pvKomander').innerText = document.getElementById('komander').value || '-';
         document.getElementById('pvRukun').innerText = document.getElementById('rukun').value || '-';
@@ -216,34 +239,39 @@
         document.getElementById('pvCatatan').innerText = document.getElementById('catatan').value || '-';
     }
 
-    document.querySelectorAll('input, textarea, select').forEach(el => el.addEventListener('input', updatePreview));
+    // Listener untuk semua input
+    document.querySelectorAll('input, textarea, select').forEach(el => {
+        el.addEventListener('input', updatePreview);
+    });
 
+    // Proses Gambar
     document.getElementById('inputPhotos').addEventListener('change', async function(e) {
         const container = document.getElementById('pvPhotos');
-        container.innerHTML = 'Memproses Gambar...';
+        container.innerHTML = '<p style="font-size:12px;">Memproses imej...</p>';
         const files = Array.from(e.target.files);
         let html = '';
+        
         for (let i = 0; i < files.length; i++) {
             const dataUrl = await new Promise(r => {
                 const fr = new FileReader();
                 fr.onload = (ev) => r(ev.target.result);
                 fr.readAsDataURL(files[i]);
             });
-            html += `<div class="img-wrapper"><img src="${dataUrl}"><p style="font-size:10px; margin:2px;">Gambar ${i+1}</p></div>`;
+            html += `<div class="img-wrapper"><img src="${dataUrl}"><p style="font-size:10px; margin:3px;">Gambar ${i+1}</p></div>`;
         }
         container.innerHTML = html;
     });
 
+    // Fungsi PDF
     async function generatePDF() {
         const btn = document.getElementById('btnJana');
-        btn.innerText = "Menjana PDF...";
+        btn.innerText = "Menghasilkan PDF...";
         btn.disabled = true;
-        const element = document.getElementById('pdf-content');
-        const fileName = `Laporan_Uniform_SJKC_ChungSan_${inputTarikh.value}.pdf`;
 
+        const element = document.getElementById('pdf-content');
         const opt = {
             margin: 5,
-            filename: fileName,
+            filename: `Laporan_Perhimpunan_Uniform_SJKC_Chung_San_${inputTarikh.value}.pdf`,
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2, useCORS: true },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
@@ -251,11 +279,16 @@
 
         try {
             await html2pdf().set(opt).from(element).save();
+        } catch (error) {
+            alert("Ralat menjana PDF: " + error);
         } finally {
-            btn.innerText = "MUAT TURUN PDF";
+            btn.innerText = "JANA & MUAT TURUN PDF";
             btn.disabled = false;
         }
     }
+
+    // Inisialisasi awal
+    window.onload = updatePreview;
 </script>
 </body>
 </html>
