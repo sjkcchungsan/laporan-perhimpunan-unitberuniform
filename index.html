@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Laporan Unit Beruniform 2026</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 10px; }
+        .container { display: flex; flex-direction: column; gap: 20px; }
+        
+        @media (min-width: 992px) {
+            .container { flex-direction: row; align-items: flex-start; }
+            .form-area { width: 35%; position: sticky; top: 10px; max-height: 95vh; overflow-y: auto; }
+            .preview-area { width: 65%; }
+        }
+
+        .form-area { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        label { font-weight: bold; display: block; margin-top: 15px; font-size: 0.85rem; color: #34495e; }
+        input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 0.9rem; }
+        
+        .section-title { background: #34495e; color: white; padding: 5px 10px; margin-top: 20px; border-radius: 4px; font-size: 0.9rem; }
+        .btn-green { background-color: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold; margin-top: 25px; transition: 0.3s; }
+        .btn-green:hover { background-color: #219150; }
+
+        /* PREVIEW AREA */
+        .preview-area { background: #555; padding: 10px; overflow-x: auto; display: flex; justify-content: center; }
+        #pdf-content { background: white; width: 210mm; min-height: 297mm; padding: 15mm; box-sizing: border-box; margin: 0; flex-shrink: 0; }
+        
+        .header-box { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
+        h2 { margin: 5px 0; font-size: 18px; text-transform: uppercase; }
+        h4 { margin: 0; font-weight: normal; }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        th, td { border: 1px solid black; padding: 8px; font-size: 12px; vertical-align: top; }
+        th { background-color: #f2f2f2; width: 30%; text-align: left; }
+
+        .activity-table td { padding: 4px 8px; }
+        .sign-table { border: none; margin-top: 30px; }
+        .sign-table td { border: none; width: 50%; padding-top: 50px; text-align: center; }
+        .sign-line { border-top: 1px solid #000; width: 80%; margin: 0 auto; padding-top: 5px; font-weight: bold; }
+
+        .photo-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .img-wrapper { width: 48%; border: 1px solid #ddd; padding: 5px; text-align: center; }
+        .img-wrapper img { width: 100%; height: 180px; object-fit: contain; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-area">
+        <h3 style="margin:0; color:#2c3e50;">Input Laporan Uniform 2026</h3>
+        
+        <div class="section-title">Maklumat Asas</div>
+        <label>Tarikh</label><input type="date" id="tarikh">
+        <label>Hari</label><input type="text" id="hari" readonly>
+        <label>Masa</label><input type="text" id="masa" placeholder="Contoh: 7:30 AM - 8:00 AM">
+        <label>Tempat</label><input type="text" id="tempat" placeholder="Contoh: Dataran Perhimpunan">
+        
+        <div class="section-title">Petugas Unit Beruniform</div>
+        <label>Nama Unit Beruniform</label>
+        <select id="unit">
+            <option value="">-- Pilih Unit --</option>
+            <option value="Pengakap">Pengakap</option>
+            <option value="BSMM">BSMM (Bulan Sabit Merah)</option>
+            <option value="TKRS">TKRS (Tunas Kadet Remaja Sekolah)</option>
+            <option value="Pandu Puteri Tunas">Pandu Puteri Tunas</option>
+        </select>
+        <label>Kumpulan Sasaran</label><input type="text" id="sasaran" placeholder="Contoh: Semua Murid Tahap 2">
+        <label>Juruacara & Perkongsian</label><input type="text" id="juruacara">
+        <label>Komander (Ketua Perbarisan)</label><input type="text" id="komander">
+        <label>Bacaan Rukun Negara (Murid)</label><input type="text" id="pembaca_rukun">
+        <label>Pasukan Teknikal</label><input type="text" id="teknikal">
+        <label>Persiapan Tempat</label><input type="text" id="persiapan">
+
+        <div class="section-title">Kandungan Ceramah & Catatan</div>
+        <label>Ringkasan Ceramah</label><textarea id="ceramah" rows="3"></textarea>
+        <label>Penyampaian Hadiah/Sijil</label><textarea id="hadiah" rows="2"></textarea>
+        <label>Ucapan Guru Besar</label><textarea id="ucapan_gb" rows="3"></textarea>
+        <label>Catatan Guru Bertugas</label><textarea id="catatan" rows="3"></textarea>
+        
+        <div class="section-title">Lampiran</div>
+        <label>Muat Naik Gambar</label><input type="file" id="inputPhotos" accept="image/*" multiple>
+
+        <button id="btnJana" class="btn-green" onclick="generatePDF()">MUAT TURUN PDF</button>
+    </div>
+
+    <div class="preview-area">
+        <div id="pdf-content">
+            <div class="header-box">
+                <h2>LAPORAN PERHIMPUNAN UNIT BERUNIFORM</h2>
+                <h4>TAHUN 2026</h4>
+            </div>
+
+            <table>
+                <tr><th>Tarikh / Hari</th><td id="pvTarikhHari">-</td></tr>
+                <tr><th>Masa</th><td id="pvMasa">-</td></tr>
+                <tr><th>Tempat</th><td id="pvTempat">-</td></tr>
+                <tr><th>Unit Beruniform Bertugas</th><td id="pvUnit"><strong>-</strong></td></tr>
+                <tr><th>Kumpulan Sasaran</th><td id="pvSasaran">-</td></tr>
+            </table>
+
+            <table>
+                <tr><th colspan="2" style="text-align:center; background:#eee;">JAWATANKUASA PETUGAS</th></tr>
+                <tr><th>Juruacara & Perkongsian</th><td id="pvJuruacara">-</td></tr>
+                <tr><th>Komander</th><td id="pvKomander">-</td></tr>
+                <tr><th>Bacaan Rukun Negara</th><td id="pvPembaca">-</td></tr>
+                <tr><th>Teknikal</th><td id="pvTeknikal">-</td></tr>
+                <tr><th>Persiapan Tempat</th><td id="pvPersiapan">-</td></tr>
+            </table>
+
+            <table class="activity-table">
+                <tr><th colspan="2" style="text-align:center; background:#eee;">AKTIVITI / ATUR CARA</th></tr>
+                <tr><td width="5%">1</td><td>Nyanyian Lagu Negaraku</td></tr>
+                <tr><td>2</td><td>Nyanyian Lagu Ibu Pertiwiku</td></tr>
+                <tr><td>3</td><td>Bacaan Ikrar Murid</td></tr>
+                <tr><td>4</td><td>Bacaan Rukun Negara</td></tr>
+                <tr><td>5</td><td><strong>Ceramah:</strong> <span id="pvCeramah">-</span></td></tr>
+                <tr><td>6</td><td><strong>Penyampaian Hadiah/Sijil:</strong> <span id="pvHadiah">-</span></td></tr>
+                <tr><td>7</td><td><strong>Ucapan Guru Besar:</strong> <span id="pvGB">-</span></td></tr>
+                <tr><td>8</td><td>Nyanyian Lagu Sekolah</td></tr>
+                <tr><td>9</td><td><strong>Catatan Guru Bertugas:</strong> <span id="pvCatatan">-</span></td></tr>
+            </table>
+
+            <table class="sign-table">
+                <tr>
+                    <td>
+                        <div class="sign-line">Tandatangan Guru Bertugas</div>
+                        <p>(Nama: .......................................)</p>
+                    </td>
+                    <td>
+                        <div class="sign-line">Tandatangan Guru Besar</div>
+                        <p><strong>LING LEE ANN</strong></p>
+                    </td>
+                </tr>
+            </table>
+
+            <div id="photo-section" style="page-break-before: always;">
+                <h3 style="text-decoration: underline; font-size: 14px;">LAMPIRAN GAMBAR</h3>
+                <div id="pvPhotos" class="photo-grid"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const inputTarikh = document.getElementById('tarikh');
+    
+    inputTarikh.addEventListener('change', function() {
+        if (this.value) {
+            const date = new Date(this.value);
+            const days = ["Ahad", "Isnin", "Selasa", "Rabu", "Khamis", "Jumaat", "Sabtu"];
+            const months = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"];
+            
+            const hari = days[date.getDay()];
+            const tarikhFormat = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+            
+            document.getElementById('hari').value = hari;
+            document.getElementById('pvTarikhHari').innerText = `${tarikhFormat} (${hari})`;
+        }
+        updatePreview();
+    });
+
+    function updatePreview() {
+        document.getElementById('pvMasa').innerText = document.getElementById('masa').value || '-';
+        document.getElementById('pvTempat').innerText = document.getElementById('tempat').value || '-';
+        document.getElementById('pvUnit').innerText = document.getElementById('unit').value || '-';
+        document.getElementById('pvSasaran').innerText = document.getElementById('sasaran').value || '-';
+        document.getElementById('pvJuruacara').innerText = document.getElementById('juruacara').value || '-';
+        document.getElementById('pvKomander').innerText = document.getElementById('komander').value || '-';
+        document.getElementById('pvPembaca').innerText = document.getElementById('pembaca_rukun').value || '-';
+        document.getElementById('pvTeknikal').innerText = document.getElementById('teknikal').value || '-';
+        document.getElementById('pvPersiapan').innerText = document.getElementById('persiapan').value || '-';
+        document.getElementById('pvCeramah').innerText = document.getElementById('ceramah').value || '-';
+        document.getElementById('pvHadiah').innerText = document.getElementById('hadiah').value || '-';
+        document.getElementById('pvGB').innerText = document.getElementById('ucapan_gb').value || '-';
+        document.getElementById('pvCatatan').innerText = document.getElementById('catatan').value || '-';
+    }
+
+    document.querySelectorAll('input, textarea, select').forEach(el => {
+        el.addEventListener('input', updatePreview);
+    });
+
+    document.getElementById('inputPhotos').addEventListener('change', async function(e) {
+        const container = document.getElementById('pvPhotos');
+        container.innerHTML = 'Memproses...';
+        const files = Array.from(e.target.files);
+        let html = '';
+        
+        for (let i = 0; i < files.length; i++) {
+            const dataUrl = await new Promise(r => {
+                const fr = new FileReader();
+                fr.onload = (ev) => r(ev.target.result);
+                fr.readAsDataURL(files[i]);
+            });
+            html += `<div class="img-wrapper"><img src="${dataUrl}"><p style="font-size:10px; margin:5px 0;">Gambar ${i+1}</p></div>`;
+        }
+        container.innerHTML = html;
+    });
+
+    async function generatePDF() {
+        const btn = document.getElementById('btnJana');
+        btn.innerText = "Menjana PDF...";
+        btn.disabled = true;
+
+        const element = document.getElementById('pdf-content');
+        const opt = {
+            margin: 5,
+            filename: `Laporan_Uniform_${inputTarikh.value || '2026'}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        try {
+            await html2pdf().set(opt).from(element).save();
+        } catch (err) {
+            console.error(err);
+        } finally {
+            btn.innerText = "MUAT TURUN PDF";
+            btn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
